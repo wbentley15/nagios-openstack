@@ -1,0 +1,16 @@
+---
+# This playbook deploys components needed for nova-docker. 
+
+- hosts: all_containers
+  user: root
+  remote_user: root
+  sudo: yes
+  roles:
+    - snmp-config
+    
+- hosts: hosts
+  user: root
+  remote_user: root
+  sudo: yes
+  roles:
+    - snmp-config

@@ -1,0 +1,7 @@
+# Here are variables related to the install
+
+USER: nagios
+SNMP_COMMUNITY: raxrpc
+SYS_LOCATION: BCUS
+SYS_CONTACT: support@rackspace.com
+
