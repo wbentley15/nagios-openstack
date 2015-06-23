@@ -4,7 +4,7 @@
   user: name={{ USER }} comment="{{ USER }} User" 
   ignore_errors: yes
 
-- name: Set home directory permissions 
+- name: Create user .ssh directory 
   command: mkdir /home/{{ USER }}/.ssh
 
 - name: Copy authorized keys

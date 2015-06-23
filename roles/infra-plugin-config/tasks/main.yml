@@ -1,0 +1,21 @@
+---
+
+- name: Install additional packages
+  apt: name={{item}} state=present
+  with_items:
+   - libnet-snmp-perl
+   
+- name: Create bin directory 
+  command: mkdir /home/{{ USER }}/bin
+
+- name: Fix libcrypto link 
+  command: chdir=/lib/x86_64-linux-gnu ln -s libcrypto.so.1.0.0 libcrypto.so.6
+  
+- name: Fix libcrypto link 
+  command: chdir=/lib/x86_64-linux-gnu ln -s libssl.so.1.0.0 libssl.so.6
+  
+- name: Copy nagios plugins
+  copy: src=check* dest=/home/{{ USER }}/bin
+  
+- name: Copy perl utils
+  copy: src=utils* dest=/etc/perl
