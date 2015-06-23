@@ -1,0 +1,10 @@
+---
+# This playbook deploys components needed for nova-docker. 
+
+- hosts: hosts
+  user: root
+  remote_user: root
+  sudo: yes
+  roles:
+    - create-nagios-user
+    - infra-plugin-config
