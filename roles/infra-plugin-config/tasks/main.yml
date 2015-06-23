@@ -7,15 +7,33 @@
    
 - name: Create bin directory 
   command: mkdir /home/{{ USER }}/bin
+  ignore_errors: yes
 
 - name: Fix libcrypto link 
   command: chdir=/lib/x86_64-linux-gnu ln -s libcrypto.so.1.0.0 libcrypto.so.6
+  ignore_errors: yes
   
 - name: Fix libcrypto link 
   command: chdir=/lib/x86_64-linux-gnu ln -s libssl.so.1.0.0 libssl.so.6
+  ignore_errors: yes
   
 - name: Copy nagios plugins
-  copy: src=check* dest=/home/{{ USER }}/bin
+  copy: src=check_http dest=/home/{{ USER }}/bin
+  
+- name: Copy nagios plugins
+  copy: src=check_port.pl dest=/home/{{ USER }}/bin
+  
+- name: Copy nagios plugins
+  copy: src=check_snmp_process.pl dest=/home/{{ USER }}/bin
   
 - name: Copy perl utils
-  copy: src=utils* dest=/etc/perl
+  copy: src=utils.pm dest=/etc/perl
+  
+- name: Copy perl utils
+  copy: src=utils.sh dest=/etc/perl
+  
+- name: Confirm plugin file permissions 
+  shell: chmod 777 /home/nagios/bin/check*
+
+- name: Confirm plug file ownership 
+  shell: chown -R nagios:nagios /home/nagios/bin
