@@ -509,7 +509,7 @@ if (!defined ($o_get_all)) {
 	 $toid[$i]=$oids[$i+$tmp_index];
 	 #verb("$i :  $toid[$i] : $oids[$i+$tmp_index]");
       }
-      $tmp_result = (Net::SNMP->VERSION < 4) ? 
+      $tmp_result = (Net::SNMP->VERSION lt 4) ? 
 	    $session->get_request(@toid)
 		: $session->get_request(Varbindlist => \@toid);
       if (!defined($tmp_result)) { printf("ERROR: running table : %s.\n", $session->error); $session->close;

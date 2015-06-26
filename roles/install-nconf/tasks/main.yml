@@ -1,11 +1,73 @@
 ---
 
-- name: Change default scheduler filters
-  shell: chdir=/bin sed -i 's/^scheduler_default_filters.*/scheduler_default_filters = AggregateInstanceExtraSpecsFilter,RetryFilter,AvailabilityZoneFilter,RamFilter,ComputeFilter,ImagePropertiesFilter,ServerGroupAntiAffinityFilter,ServerGroupAffinityFilter/' /etc/nova/nova.conf
-  
-- name: Copy Docker section file
-  copy: src=docker dest=/usr/share mode=0644
+- name: Install additional packages
+  apt: name={{item}} state=present
+  with_items:
+   - mysql-server
+   - mysql-client
+   - php5
+   - libapache2-mod-php5
+   - php5-mysql
+   - php5-cli
+   - php5-common
+   - libtext-csv-xs-perl
+   
+- name: Download NConf binaries
+  command: wget http://sourceforge.net/projects/nconf/files/nconf/1.3.0-0/nconf-1.3.0-0.tgz/download
 
-- name: Insert Docker section into Nova config
-  shell: chdir=/usr/share cat /usr/share/docker >> /etc/nova/nova.conf
-  notify: restart nova-scheduler
+- name: Unpack NConf binaries
+  command: tar xzvf nconf-1.3.0-0.tgz -C /var/www/html
+  
+- name: Adjust NConf directory owner
+  command: chown -R apache2:apache2 /var/www/html/nconf
+
+- name: Set proper NConf directory permissions
+  command: chdir=/var/www/html/nconf chmod 644 /config /output /static_cfg /temp
+  
+- name: Copy NConf DB script
+  template: src=create-nconf-db.sql dest=/usr/share
+
+- name: Create NConf DB
+  shell: chdir=/usr/bin mysql -u {{ DB_USER }} --password={{ DB_PASS }} < /usr/share/create-nconf-db.sql
+
+- name: Create NConf DB structure
+  shell: chdir=/usr/bin mysql -u {{ DB_USER }} --password={{ DB_PASS }} {{ DB_NAME }} < /var/www/html/nconf/INSTALL/create_database.sql
+
+- name: Copy NConf config file
+  copy: src=nconf.php dest=/var/www/html/nconf/config mode=0644
+
+- name: Copy NConf authentication config file
+  copy: src=authentication.php dest=/var/www/html/nconf/config mode=0644
+  
+- name: Copy NConf mysql config file
+  template: src=mysql.php dest=/var/www/html/nconf/config mode=0644
+
+- name: Remove installation directories and files
+  command: rm -r /var/www/html/nconf/INSTALL
+
+- name: Remove installation directories and files
+  command: rm /var/www/html/nconf/INSTALL.php
+  
+- name: Remove installation directories and files
+  command: rm -r /var/www/html/nconf/UPDATE
+  
+- name: Remove installation directories and files
+  command: rm /var/www/html/nconf/UPDATE.php  
+
+- name: Change default Nagios config to use NConf
+  shell: chdir=/bin sed -i 's/^cfg_dir.*/#/g' /etc/nagios3/nagios.cfg
+
+- name: Change default Nagios config to use NConf
+  shell: chdir=/bin sed -i 's/^cfg_file.*/#/g' /etc/nagios3/nagios.cfg
+
+- name: Make import directory
+  command: mkdir /etc/nagios3/import
+  
+- name: Copy Nagios config snippet
+  copy: src=nagios dest=/usr/share
+  
+- name: Change default Nagios config to use NConf
+  shell: chdir=/usr/share cat /usr/share/nagios >> /etc/nagios3/nagios.cfg
+  
+- name: Restart Nagios service
+  command: service nagios3 restart

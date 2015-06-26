@@ -1,4 +1,0 @@
-[docker]
-# Commented out. Uncomment these if you'd like to customize:
-vif_driver=novadocker.virt.docker.vifs.DockerGenericVIFDriver
-## snapshots_directory=/var/tmp/my-snapshot-tempdir
