@@ -26,3 +26,12 @@
 
 - name: Create NConf DB
   shell: chdir=/usr/bin mysql -u {{ DB_USER }} --password= < /usr/share/create-nconf-db.sql
+
+- name: Set NConf directory ownership
+  shell: chdir=/var/www/html chown -R www-data:www-data nconf
+
+- name: Set NConf directory permissions
+  shell: chdir=/var/www/html chmod -R 777 nconf
+
+- name: Restart apache
+  command: service apache2 restart

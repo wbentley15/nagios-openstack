@@ -5,6 +5,7 @@
   with_items:
    - nagios3
    - unzip
+   - vim
 
 - name: Backup Nagios config files
   command: cp -r /etc/nagios3 /etc/nagios3.backup
