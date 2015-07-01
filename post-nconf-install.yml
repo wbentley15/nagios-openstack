@@ -1,0 +1,9 @@
+---
+# This playbook deploys components needed for NConf. 
+
+- hosts: nagios-server
+  user: root
+  remote_user: root
+  sudo: yes
+  roles:
+    - nconf-post-install
