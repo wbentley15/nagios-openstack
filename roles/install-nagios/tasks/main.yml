@@ -26,4 +26,4 @@
   copy: src=nagios-ubuntu-logo.tar dest=/usr/share
   
 - name: Decompress nagios Ubuntu logo archive
-  command: chdir=/usr/share tar xzvf nagios-ubuntu-logo.tar -C /usr/share/nagios/htdocs/images/logos/base
+  command: chdir=/usr/share tar xvf nagios-ubuntu-logo.tar -C /usr/share/nagios/htdocs/images/logos/base

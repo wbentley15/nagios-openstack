@@ -1,0 +1,22 @@
+---
+
+- name: Copy NConf config file
+  copy: src=nconf.php dest=/var/www/html/nconf/config mode=0644
+
+- name: Change default Nagios config to use NConf
+  shell: chdir=/bin sed -i 's/^cfg_dir.*/#/g' /etc/nagios3/nagios.cfg
+
+- name: Change default Nagios config to use NConf
+  shell: chdir=/bin sed -i 's/^cfg_file.*/#/g' /etc/nagios3/nagios.cfg
+
+- name: Make import directory
+  command: mkdir /etc/nagios3/import
+  
+- name: Copy Nagios config snippet
+  copy: src=nagios.txt dest=/usr/share
+  
+- name: Change default Nagios config to use NConf
+  shell: chdir=/usr/share cat /usr/share/nagios.txt >> /etc/nagios3/nagios.cfg
+  
+- name: Restart Nagios service
+  command: service nagios3 restart
