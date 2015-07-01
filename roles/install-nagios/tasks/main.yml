@@ -10,16 +10,17 @@
   command: cp -r /etc/nagios3 /etc/nagios3.backup
   
 - name: Check Nagios service
-  command: ps -ef |grep nagios3
+  shell: ps -ef |grep nagios3
 
 - name: Create user .ssh directory 
-  command: mkdir /home/{{ USER }}/.ssh
+  command: mkdir /var/lib/nagios/.ssh
+  ignore_errors: yes
 
 - name: Copy SSH private keys
-  copy: src=id_dsa dest=/home/{{ USER }}/.ssh mode=0600
+  copy: src=id_dsa dest=/var/lib/nagios/.ssh mode=0600
   
 - name: Copy SSH public keys
-  copy: src=id_dsa.pub dest=/home/{{ USER }}/.ssh mode=0644
+  copy: src=id_dsa.pub dest=/var/lib/nagios/.ssh mode=0644
   
 - name: Copy nagios Ubuntu logo archive
   copy: src=nagios-ubuntu-logo.tar dest=/usr/share
