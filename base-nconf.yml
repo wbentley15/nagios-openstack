@@ -1,9 +1,9 @@
 ---
-# This playbook deploys components needed for nova-docker. 
+# This playbook deploys components needed for NConf. 
 
-- hosts: nova_schedulers
+- hosts: nagios-server
   user: root
   remote_user: root
   sudo: yes
   roles:
-    - nova-scheduler
+    - install-nconf

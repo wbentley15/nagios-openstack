@@ -26,6 +26,9 @@
 - name: Copy nagios plugins
   copy: src=check_snmp_process.pl dest=/home/{{ USER }}/bin
   
+- name: Copy nagios plugins
+  copy: src=show_users dest=/home/{{ USER }}/bin
+  
 - name: Copy perl utils
   copy: src=utils.pm dest=/etc/perl
   

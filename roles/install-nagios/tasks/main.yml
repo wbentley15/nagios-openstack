@@ -4,9 +4,25 @@
   apt: name={{item}} state=present
   with_items:
    - nagios3
+   - unzip
 
 - name: Backup Nagios config files
   command: cp -r /etc/nagios3 /etc/nagios3.backup
   
 - name: Check Nagios service
   command: ps -ef |grep nagios3
+
+- name: Create user .ssh directory 
+  command: mkdir /home/{{ USER }}/.ssh
+
+- name: Copy SSH private keys
+  copy: src=id_dsa dest=/home/{{ USER }}/.ssh mode=0600
+  
+- name: Copy SSH public keys
+  copy: src=id_dsa.pub dest=/home/{{ USER }}/.ssh mode=0644
+  
+- name: Copy nagios Ubuntu logo archive
+  copy: src=nagios-ubuntu-logo.tar dest=/usr/share
+  
+- name: Decompress nagios Ubuntu logo archive
+  command: chdir=/usr/share tar xzvf nagios-ubuntu-logo.tar -C /usr/share/nagios/htdocs/images/logos/base

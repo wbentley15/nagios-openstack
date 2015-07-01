@@ -1,9 +1,10 @@
 ---
-# This playbook deploys components needed for nova-docker. 
+# This playbook deploys components needed for Nagios. 
 
-- hosts: util_container
+- hosts: nagios-server
   user: root
   remote_user: root
   sudo: yes
   roles:
-    - openstack-config
+    - install-nagios
+    - nagios-plugins

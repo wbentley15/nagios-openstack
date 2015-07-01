@@ -1,5 +1,5 @@
 ---
-# This playbook deploys components needed for nova-docker. 
+# This playbook deploys components needed for the Infrastructure hosts. 
 
 - hosts: hosts
   user: root
