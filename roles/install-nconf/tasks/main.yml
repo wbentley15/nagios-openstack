@@ -33,5 +33,8 @@
 - name: Set NConf directory permissions
   shell: chdir=/var/www/html chmod -R 777 nconf
 
-- name: Restart apache
-  command: service apache2 restart
+- name: Stop apache
+  command: service apache2 stop
+  
+- name: Start apache
+  command: service apache2 start
