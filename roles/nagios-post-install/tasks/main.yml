@@ -20,6 +20,3 @@
   
 - name: Copy updated NConf deployment script
   copy: src=deploy_local.sh dest=/var/www/html/nconf/ADD-ONS mode=0777
-  
-- name: Restart Nagios service
-  command: service nagios3 restart
