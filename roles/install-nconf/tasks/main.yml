@@ -28,10 +28,10 @@
   shell: chdir=/usr/bin mysql -u {{ DB_USER }} --password= < /usr/share/create-nconf-db.sql
 
 - name: Set NConf directory ownership
-  shell: chdir=/var/www/html chown -R www-data:www-data nconf
+  shell: chown -R www-data:www-data /var/www/html/nconf
 
 - name: Set NConf directory permissions
-  shell: chdir=/var/www/html chmod -R 777 nconf
+  shell: chmod -R 777 /var/www/html/nconf
 
 - name: Stop apache
   command: service apache2 stop
