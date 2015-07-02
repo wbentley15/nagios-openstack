@@ -12,7 +12,7 @@ fi
 if [ ${OUTPUT_DIR}${CONF_ARCHIVE} -nt ${TEMP_DIR}${CONF_ARCHIVE} ] ; then
 cp -p ${OUTPUT_DIR}${CONF_ARCHIVE} ${TEMP_DIR}${CONF_ARCHIVE}
 tar -xf ${TEMP_DIR}${CONF_ARCHIVE} -C ${NAGIOS_DIR}
-service nagios3 reload
+service nagios3 restart
 fi
 
 exit
